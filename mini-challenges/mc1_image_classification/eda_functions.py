@@ -109,12 +109,16 @@ def show_training_single_plot(df, variant, col):
                                  y=df[df["name"]==name][col],
                                  mode='lines',
                                  marker_color= list(set(df[df["name"]==name]["color_lr"]))[0],
-                                 name=name))
+                                 name=name,
+                                 text=df[df["name"]==name]["learning_rate"],
+                                 hovertemplate="epoch: %{x}<br>value: %{y}<br>lr: %{text}<br>"))
 
     fig.update_layout(title_text="{} over epochs".format(col),
                       xaxis_title="epochs",
                       yaxis_title=col,
                       height=400)
+    fig.update_yaxes(range=[np.min(df[col].astype(float)), np.min([3.5, np.max(df[col].astype(float))])])
+
     fig.show()
 
 def plot_train_vs_test_loss(df, variant):

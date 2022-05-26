@@ -164,7 +164,8 @@ def plot_train_vs_test_accuracy(df, variant):
                       height=450)
     fig.show()
 
-def max_test_acc_bar(df, variant):
+
+def max_test_acc_reg_bar(df, variant):
     if "DP" in variant:
         reg_title = "drop out"
         col = "drop_out"
@@ -181,8 +182,8 @@ def max_test_acc_bar(df, variant):
     fig.update_layout(title_text="Top accuracy for varying {} values".format(reg_title),
                       xaxis_title="{} regularization strength".format(reg_title),
                       yaxis_title="top test accuracy",
-                      height=400
-                     )
+                      barmode='group',
+                      height=400)
     fig.show()
 
 
@@ -194,8 +195,8 @@ def read_wandb_logs():
 
     summary_list, config_list, name_list, history_list = [], [], [], []
     for i, run in enumerate(runs):
-        if i % 20 == 0:
-            print("Reading model:", i)
+        # if i % 20 == 0:
+        #     print("Reading model:", i)
         # .summary contains the output keys/values for metrics like accuracy.
         #  We call ._json_dict to omit large files
         summary_list.append(run.summary._json_dict)
@@ -218,4 +219,35 @@ def read_wandb_logs():
         config_list[i]["name"] = name
         df_config_summary = df_config_summary.append(config_list[i], ignore_index=True)
     df_history_summary = df_history_summary.reset_index(drop=True)
+    df_config_summary.loc[df_config_summary["variant"] == "MLP_SGD_Adam", "variant"] = "MLP_Adam"
+    df_config_summary.loc[df_config_summary["variant"] == "CNN_SGD_Adam", "variant"] = "CNN_Adam"
     return df_config_summary, df_history_summary
+
+
+def max_test_acc_lr_bar(df, variant):
+    col = "learning_rate"
+    df = df.copy()
+    df = df.loc[df["variant"]==variant]
+    df = df.groupby("name").max("_step")
+    df = df.sort_values(col)
+    fig = go.Figure([go.Bar(x=df[col].astype(str), y=df["top test accuracy"], text=df["top test accuracy"])])
+
+    fig.update_layout(title_text="Top accuracy for varying learning rates for {}".format(variant),
+                      xaxis_title="learning rate",
+                      yaxis_title="top test accuracy",
+                      barmode='group',
+                      height=400)
+    fig.show()
+
+def print_best_models(df, variant=None):
+    '''Prints the best model vor a specified variant'''
+    # select model variant
+    if variant:
+        df = df.loc[df["variant"]==variant]
+    # select model with best test accuracy
+    df = df.loc[df["top test accuracy"]==np.max(df["top test accuracy"])]
+    print("Best \033[1m{}\033[0m model reached a test accuracy of \033[1m{}\033[0m at epoch \033[1m{}\033[0m with and test loss of \033[1m{:.3f}\033[0m".format(
+        df["variant"].values[0],
+        df["test accuracy"].values[0],
+        df["_step"].values[0].astype(int),
+        df["test loss"].values[0]))

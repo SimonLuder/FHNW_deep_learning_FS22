@@ -17,7 +17,7 @@ def compare_mlp_sizes(df, variant):
     df = df.pivot(index='num_hidden', columns='hidden_layer_size', values='test accuracy')
 
     fig = go.Figure(data=go.Heatmap(
-        z = df.values,
+        z = df.round(decimals=3).values,
         x = df.columns.astype(str),
         y = df.index.astype(str),
         texttemplate="%{z}",
@@ -43,7 +43,7 @@ def compare_cnn_sizes(df, variant):
     df = df.pivot(index='num_conv', columns='conv_layer_size', values='test accuracy')
 
     fig = go.Figure(data=go.Heatmap(
-        z = df.values,
+        z = df.round(decimals=3).values,
         x = df.columns.astype(str),
         y = df.index.astype(str),
         texttemplate="%{z}",

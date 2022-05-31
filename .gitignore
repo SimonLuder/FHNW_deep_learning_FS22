@@ -133,3 +133,6 @@ data/
 
 # wandb files
 wandb/
+
+# GloVe vectors
+.vector_cache/

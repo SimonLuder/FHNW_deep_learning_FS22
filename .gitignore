@@ -136,3 +136,6 @@ wandb/
 
 # GloVe vectors
 .vector_cache/
+
+# archive
+archive/

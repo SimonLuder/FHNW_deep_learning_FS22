@@ -4,5 +4,5 @@ This repository serves as a collection for exercises on which I have been workin
 
 ## Structure
 
-- For image classification using MLP's and CNN's see: [mc1_image_classification/mc1_main_notebook.ipynb](mini-challenges/mc1_image_classification/mc1_main_notebook.ipynb)
-- For image captioning using CNN's and RNN's see: [mc2_image_classification/mc2_main_notebook.ipynb](mini-challenges/mc2_image_captioning/mc2_main_notebook.ipynb)
+- For image classification using MLP's and CNN's see: [mc1_main_notebook.ipynb](mini-challenges/mc1_image_classification/mc1_main_notebook.ipynb)
+- For image captioning using CNN's and LSTM's see: [mc2_main_notebook.ipynb](mini-challenges/mc2_image_captioning/mc2_main_notebook.ipynb)

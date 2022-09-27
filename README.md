@@ -1,4 +1,4 @@
-# Deep Learning Trainingscenter
+# FHNW del FS22
 
 This repository serves as a collection for exercises on which I have been working on during the 4 ECTS module `deep learning` at the bachelor degree course in [Data Science at FHNW](https://www.fhnw.ch/en/degree-programmes/engineering/bsc-data-science). Part of the assessment for this course was the submission of two small projects which are listed below.
 
